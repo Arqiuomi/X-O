@@ -1,9 +1,50 @@
+from func import player, Game
 
-row = 3
-col = 3
-grid = []
-for i in range(row):
-    grid.append([None] * col)
+x= player('x')
+o= player('o')
+
+f=Game()
+f.play(x,0,0)
+f.play(o,0,1)
+f.play(x,1,0)
+f.play(o,0,2)
+f.play(x,2,0)
+
+
+
+#
+# class Person:
+#     def __init__(self, name, surname):
+#         self.name = name
+#         self.surname = surname
+#     def __repr__(self):
+#         return f'{self.name} {self.surname}'
+#     @property
+#     def full_name(self):
+#         return self.name + ' ' + self.surname
+#
+# A=Person('F', 'K')
+# print(A.full_name)
+
+
+#
+# def create_a_grid() -> list:
+#     '''Создаём сетку для заполнения'''
+#     row = 3
+#     col = 3
+#     grid = []
+#     for i in range(row):
+#         grid.append([None] * col)
+#     return grid
+# print(len(create_a_grid()[0]))
+
+
+
+# row = 3
+# col = 3
+# grid = []
+# for i in range(row):
+#     grid.append([None] * col)
 
 
 # for i in range(row):
@@ -33,9 +74,9 @@ for i in range(row):
 # except ValueError:
 #     print("You win")
 
-grid[0][2]=2
-grid[1][1]=2
-grid[2][0]=2
+# grid[0][2]=2
+# grid[1][1]=2
+# grid[2][0]=2
 
 # rdiag=[]
 # for d in range(row):
