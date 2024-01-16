@@ -25,16 +25,21 @@ class Game():
         return grid
 
     def check_is_empty(self, i, j) -> list:
-        '''Проверяет, свободна ли ячейка'''
+        '''Проверяет, свободна ли ячейка
+        i: int
+        j: int'''
+
         if self.grid[i][j] != None:
             print('ячейка уже занята')
             print('выберите пустую ячейку')
+            raise IndexError
         else:
             return i, j
 
     def turn(self, player, i=0, j=0):
         '''Ход человека, принимает координаты ячейки'''
         # проверяем, не занята ли ячейка
+
         indexes = self.check_is_empty(i=i, j=j)
         try:
             i = indexes[0]
@@ -55,6 +60,7 @@ class Game():
                     print("You win")
                     print(f'строка {p} заполнена {player}')
                     return True
+        return False
 
     def check_cols(self, player) -> bool:
         ''' проверяем столбцы'''
@@ -68,6 +74,7 @@ class Game():
                     print("You win")
                     print(f'столбец {k} заполнен {player}')
                     return True
+            return False
 
     def check_diag(self, player) -> bool:
         '''проверяем главную диагональ'''
@@ -81,6 +88,7 @@ class Game():
                 print("You win")
                 # print(f' главная диагональ заполнена {self.sign}')
                 return True
+        return False
 
     def check_cross_diag(self, player) -> bool:
         '''проверяем побочную диагональ'''
@@ -94,16 +102,45 @@ class Game():
                 print("You win")
                 # print(f'побочная диагональ заполнена {self.sign}')
                 return True
+        return False
+    def check_space(self):
+        # for p in range(self.length):
+        c=0
+        for p in range(self.length):
+            try:
+                self.grid[p].index(None)
+            except ValueError:
+                c+=1
+            if c==3:
+                print("No space, the game has ended")
+                return True
+        return False
 
-    def check_the_win(self, player) -> None:
+    def check_the_win(self, player) -> bool:
+        return self.check_rows(player) or self.check_cols(player) or self.check_diag(player) or self.check_cross_diag(player)
 
-        self.check_rows(player)
-        self.check_cols(player)
-        self.check_diag(player)
-        self.check_cross_diag(player)
+    def change_player(self, player='o'):
+        if player=='o':
+            player=='x'
+        elif player=='x':
+            player=='o'
+
+        if player=='x':
+            return 'o'
+        else:
+            return 'x'
 
     def play(self, player, i=0, j=0):
         '''Основной ход игры'''
-        self.turn(player.sign, i, j)
-        self.check_the_win(player.sign)
-        print(self.grid)
+        while not self.check_the_win(player) or not self.check_space():
+            try:
+                move = list(map(int, input().split(' ')))
+                self.turn(player, move[0], move[1])
+            except IndexError:
+                continue
+            except Exception:
+                continue
+            self.check_the_win(player)
+            self.check_space()
+            print(self.grid)
+            player = self.change_player(player)
